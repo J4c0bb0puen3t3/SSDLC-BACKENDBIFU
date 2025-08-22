@@ -13,4 +13,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/reports', [ReportController::class, 'index']);
     Route::post('/reports', [ReportController::class, 'store']);
     Route::patch('/reports', [ReportController::class, 'updateStatus']);
+
+    Route::middleware('auth:sanctum')->get('/reports/export-pdf', [ReportController::class, 'exportPdf']);
+    
 });

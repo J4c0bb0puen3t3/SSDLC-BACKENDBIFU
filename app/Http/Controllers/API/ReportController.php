@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\Report;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+// 👇 NUEVO
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class ReportController extends Controller
 {
@@ -36,4 +38,15 @@ class ReportController extends Controller
         $report->update(['status' => $request->status]);
         return $report;
     }
+
+    // 👇 NUEVOS MÉTODOS
+   public function exportPdf()
+{
+    $reports = Report::where('user_id', Auth::id())->get();
+
+    $pdf = Pdf::loadView('pdf', compact('reports'))
+              ->setPaper('a4', 'portrait');
+
+    return $pdf->download('mis_incidencias.pdf');
+}
 }
